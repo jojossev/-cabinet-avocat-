@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ service.nom }} - {{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'website:home' %}">Accueil</a>
+        <span class="separator">/</span>
+        <a href="{% url 'website:services' %}">Services</a>
+        <span class="separator">/</span>
+        <span class="current">{{ service.nom }}</span>
+    </div>
+</nav>
+
+<!-- Section Service Detail -->
+<section class="service-detail">
+    <div class="container">
+        <div class="service-header">
+            <div class="service-icon-large">
+                <i class="{{ service.icone }}"></i>
+            </div>
+            <div class="service-info">
+                <h1>{{ service.nom }}</h1>
+                <p class="service-description">{{ service.description }}</p>
+            </div>
+        </div>
+
+        <div class="service-content">
+            <div class="service-main">
+                <h2>Nos services dans ce domaine</h2>
+                <div class="service-details">
+                    <p>{{ service.description }}</p>
+                    
+                    <!-- Ici vous pouvez ajouter plus de contenu spécifique à chaque service -->
+                    <div class="service-features">
+                        <h3>Pourquoi nous choisir ?</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Expertise reconnue dans le domaine</li>
+                            <li><i class="fas fa-check"></i> Accompagnement personnalisé</li>
+                            <li><i class="fas fa-check"></i> Tarifs transparents</li>
+                            <li><i class="fas fa-check"></i> Disponibilité et réactivité</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-sidebar">
+                <div class="sidebar-card">
+                    <h3>Avocats spécialisés</h3>
+                    {% if avocats_specialises %}
+                        {% for avocat in avocats_specialises %}
+                            <div class="avocat-mini">
+                                <div class="avocat-photo">
+                                    {% if avocat.photo %}
+                                        <img src="{{ avocat.photo.url }}" alt="{{ avocat.nom }}">
+                                    {% else %}
+                                        <i class="fas fa-user-tie"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="avocat-info">
+                                    <h4>{{ avocat.nom }}</h4>
+                                    <p>{{ avocat.titre }}</p>
+                                    <a href="{% url 'website:avocat_detail' avocat.id %}" class="btn btn-small">Voir le profil</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Aucun avocat spécialisé dans ce domaine pour le moment.</p>
+                    {% endif %}
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Besoin d'aide ?</h3>
+                    <p>Contactez-nous pour une consultation personnalisée.</p>
+                    <a href="{% url 'website:contact' %}?service={{ service.id }}" class="btn btn-primary">Demander un conseil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Intéressé par ce service ?</h2>
+            <p>Prenez rendez-vous avec nos experts pour discuter de votre situation.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'website:contact' %}?service={{ service.id }}" class="btn btn-primary">Demander une consultation</a>
+                <a href="{% url 'website:services' %}" class="btn btn-secondary">Voir tous nos services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

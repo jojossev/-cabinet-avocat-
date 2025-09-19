@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - {{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}
+
+{% block content %}
+<!-- Section Contact -->
+<section class="contact-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Contactez-Nous</h1>
+            <p>Prenez rendez-vous pour une consultation personnalisée</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                {% if cabinet_info %}
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Adresse</h4>
+                            <p>{{ cabinet_info.adresse|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Téléphone</h4>
+                            <p><a href="tel:{{ cabinet_info.telephone }}">{{ cabinet_info.telephone }}</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:{{ cabinet_info.email }}">{{ cabinet_info.email }}</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Horaires</h4>
+                            <p>{{ cabinet_info.horaires|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Informations supplémentaires -->
+                <div class="contact-extra">
+                    <h4>Pourquoi nous choisir ?</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Consultation gratuite</li>
+                        <li><i class="fas fa-check"></i> Réponse sous 24h</li>
+                        <li><i class="fas fa-check"></i> Expertise reconnue</li>
+                        <li><i class="fas fa-check"></i> Accompagnement personnalisé</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <h3>Demande de consultation</h3>
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="form-errors">
+                            <h4>Veuillez corriger les erreurs suivantes :</h4>
+                            <ul>
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.nom.id_for_label }}">Nom *</label>
+                            {{ form.nom }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}">Email *</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.telephone.id_for_label }}">Téléphone</label>
+                        {{ form.telephone }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.service.id_for_label }}">Service concerné *</label>
+                        {{ form.service }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}">Message *</label>
+                        {{ form.message }}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rgpd" name="rgpd" required>
+                            <label for="rgpd">
+                                J'accepte que mes données personnelles soient utilisées pour me recontacter dans le cadre de ma demande. *
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Envoyer le Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section FAQ -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Questions Fréquentes</h2>
+            <p>Retrouvez les réponses aux questions les plus courantes</p>
+        </div>
+        
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>Comment prendre rendez-vous ?</h4>
+                <p>Vous pouvez nous contacter par téléphone, email ou en remplissant le formulaire ci-dessus. Nous vous recontacterons dans les plus brefs délais.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>La première consultation est-elle gratuite ?</h4>
+                <p>Oui, nous proposons une consultation gratuite pour évaluer votre situation et vous orienter vers la meilleure solution.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Quels sont vos honoraires ?</h4>
+                <p>Nos honoraires sont transparents et adaptés à chaque situation. Nous vous fournirons un devis détaillé avant tout engagement.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Êtes-vous disponibles en urgence ?</h4>
+                <p>Nous nous efforçons de répondre rapidement à toutes les demandes. Pour les urgences, n'hésitez pas à nous appeler directement.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ avocat.nom }} - {{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'website:home' %}">Accueil</a>
+        <span class="separator">/</span>
+        <a href="{% url 'website:equipe' %}">Équipe</a>
+        <span class="separator">/</span>
+        <span class="current">{{ avocat.nom }}</span>
+    </div>
+</nav>
+
+<!-- Section Avocat Detail -->
+<section class="avocat-detail">
+    <div class="container">
+        <div class="avocat-header">
+            <div class="avocat-photo-large">
+                {% if avocat.photo %}
+                    <img src="{{ avocat.photo.url }}" alt="{{ avocat.nom }}">
+                {% else %}
+                    <i class="fas fa-user-tie"></i>
+                {% endif %}
+            </div>
+            <div class="avocat-info">
+                <h1>{{ avocat.nom }}</h1>
+                <p class="avocat-title">{{ avocat.titre }}</p>
+                <p class="avocat-specialties">{{ avocat.specialites }}</p>
+                
+                <div class="avocat-contact">
+                    <a href="mailto:{{ avocat.email }}" class="contact-btn">
+                        <i class="fas fa-envelope"></i> {{ avocat.email }}
+                    </a>
+                    <a href="tel:{{ avocat.telephone }}" class="contact-btn">
+                        <i class="fas fa-phone"></i> {{ avocat.telephone }}
+                    </a>
+                    {% if avocat.linkedin %}
+                        <a href="{{ avocat.linkedin }}" target="_blank" class="contact-btn">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="avocat-content">
+            <div class="avocat-main">
+                <div class="avocat-bio">
+                    <h2>Présentation</h2>
+                    <p>{{ avocat.specialites }}</p>
+                    
+                    <!-- Ici vous pouvez ajouter plus d'informations sur l'avocat -->
+                    <div class="avocat-experience">
+                        <h3>Expérience et expertise</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Formation juridique approfondie</li>
+                            <li><i class="fas fa-check"></i> Expérience dans le domaine</li>
+                            <li><i class="fas fa-check"></i> Approche personnalisée</li>
+                            <li><i class="fas fa-check"></i> Suivi rigoureux des dossiers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="avocat-sidebar">
+                <div class="sidebar-card">
+                    <h3>Services liés</h3>
+                    {% if services_lies %}
+                        {% for service in services_lies %}
+                            <div class="service-mini">
+                                <div class="service-icon">
+                                    <i class="{{ service.icone }}"></i>
+                                </div>
+                                <div class="service-info">
+                                    <h4>{{ service.nom }}</h4>
+                                    <a href="{% url 'website:service_detail' service.id %}" class="btn btn-small">En savoir plus</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>Aucun service lié pour le moment.</p>
+                    {% endif %}
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Prendre rendez-vous</h3>
+                    <p>Contactez {{ avocat.nom }} pour une consultation personnalisée.</p>
+                    <a href="{% url 'website:contact' %}" class="btn btn-primary">Demander un conseil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Besoin de conseils juridiques ?</h2>
+            <p>Contactez {{ avocat.nom }} pour discuter de votre situation.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'website:contact' %}" class="btn btn-primary">Prendre rendez-vous</a>
+                <a href="{% url 'website:equipe' %}" class="btn btn-secondary">Voir toute l'équipe</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

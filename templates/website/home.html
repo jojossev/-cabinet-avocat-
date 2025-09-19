@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }} - Expertise Juridique{% endblock %}
+
+{% block content %}
+<!-- Section Hero -->
+<section id="accueil" class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Votre Partenaire Juridique de Confiance</h1>
+        <p class="hero-subtitle">{{ cabinet_info.description|default:"Expertise, intégrité et dévouement au service de vos droits" }}</p>
+        <div class="hero-buttons">
+            <a href="{% url 'website:contact' %}" class="btn btn-primary">Consultation Gratuite</a>
+            <a href="{% url 'website:services' %}" class="btn btn-secondary">Nos Services</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="hero-placeholder">
+            <i class="fas fa-gavel"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Section Services -->
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-header">
+            <h2>Nos Domaines d'Expertise</h2>
+            <p>Une gamme complète de services juridiques pour répondre à tous vos besoins</p>
+        </div>
+        <div class="services-grid">
+            {% for service in services %}
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="{{ service.icone }}"></i>
+                    </div>
+                    <h3>{{ service.nom }}</h3>
+                    <p>{{ service.description|truncatewords:20 }}</p>
+                    <a href="{% url 'website:service_detail' service.id %}" class="btn btn-outline">En savoir plus</a>
+                </div>
+            {% empty %}
+                <div class="no-content">
+                    <p>Aucun service disponible pour le moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center" style="margin-top: 3rem;">
+            <a href="{% url 'website:services' %}" class="btn btn-primary">Voir tous nos services</a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Équipe -->
+<section id="equipe" class="team">
+    <div class="container">
+        <div class="section-header">
+            <h2>Notre Équipe</h2>
+            <p>Des professionnels expérimentés à votre service</p>
+        </div>
+        <div class="team-grid">
+            {% for avocat in avocats %}
+                <div class="team-member">
+                    <div class="member-photo">
+                        {% if avocat.photo %}
+                            <img src="{{ avocat.photo.url }}" alt="{{ avocat.nom }}">
+                        {% else %}
+                            <i class="fas fa-user-tie"></i>
+                        {% endif %}
+                    </div>
+                    <h3>{{ avocat.nom }}</h3>
+                    <p class="member-title">{{ avocat.titre }}</p>
+                    <p class="member-specialty">{{ avocat.specialites }}</p>
+                    <div class="member-social">
+                        {% if avocat.linkedin %}
+                            <a href="{{ avocat.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        {% endif %}
+                        <a href="mailto:{{ avocat.email }}"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <a href="{% url 'website:avocat_detail' avocat.id %}" class="btn btn-outline">Profil complet</a>
+                </div>
+            {% empty %}
+                <div class="no-content">
+                    <p>Aucun avocat disponible pour le moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center" style="margin-top: 3rem;">
+            <a href="{% url 'website:equipe' %}" class="btn btn-primary">Voir toute l'équipe</a>
+        </div>
+    </div>
+</section>
+
+<!-- Section Contact -->
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-header">
+            <h2>Contactez-Nous</h2>
+            <p>Prenez rendez-vous pour une consultation personnalisée</p>
+        </div>
+        <div class="contact-content">
+            <div class="contact-info">
+                {% if cabinet_info %}
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Adresse</h4>
+                            <p>{{ cabinet_info.adresse|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Téléphone</h4>
+                            <p>{{ cabinet_info.telephone }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>{{ cabinet_info.email }}</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Horaires</h4>
+                            <p>{{ cabinet_info.horaires|linebreaksbr }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="contact-form-container">
+                <h3>Demande de consultation</h3>
+                <form method="post" action="{% url 'website:contact' %}" class="contact-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="nom" placeholder="Votre nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Votre email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="telephone" placeholder="Votre téléphone">
+                    </div>
+                    <div class="form-group">
+                        <select name="service" required>
+                            <option value="">Sélectionnez un service</option>
+                            {% for service in services %}
+                                <option value="{{ service.id }}">{{ service.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Décrivez votre situation" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer le Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

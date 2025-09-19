@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}</title>
+    
+    <!-- CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="{% url 'website:home' %}">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>{{ cabinet_info.nom_cabinet|default:"Cabinet Juridique" }}</span>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{% url 'website:home' %}" class="nav-link">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'website:services' %}" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'website:equipe' %}" class="nav-link">Équipe</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'website:contact' %}" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
+                    {{ message }}
+                    <button class="alert-close">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Contenu principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>{{ cabinet_info.nom_cabinet|default:"Cabinet Juridique" }}</span>
+                    </div>
+                    <p>{{ cabinet_info.description|default:"Votre partenaire juridique de confiance." }}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        {% for service in services|slice:":4" %}
+                            <li><a href="{% url 'website:service_detail' service.id %}">{{ service.nom }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    {% if cabinet_info %}
+                        <p><i class="fas fa-phone"></i> {{ cabinet_info.telephone }}</p>
+                        <p><i class="fas fa-envelope"></i> {{ cabinet_info.email }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ cabinet_info.adresse|linebreaksbr }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {% now "Y" %} {{ cabinet_info.nom_cabinet|default:"Cabinet Juridique" }}. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

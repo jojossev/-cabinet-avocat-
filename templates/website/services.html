@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services - {{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}
+
+{% block content %}
+<!-- Section Services -->
+<section class="services-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Nos Services Juridiques</h1>
+            <p>Découvrez notre gamme complète de services juridiques adaptés à vos besoins</p>
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="search-bar">
+            <form method="get" class="search-form">
+                <div class="search-input-group">
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="Rechercher un service..." class="search-input">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                {% if search_query %}
+                    <a href="{% url 'website:services' %}" class="clear-search">Effacer la recherche</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Grille des services -->
+        <div class="services-grid">
+            {% for service in services %}
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="{{ service.icone }}"></i>
+                    </div>
+                    <h3>{{ service.nom }}</h3>
+                    <p>{{ service.description|truncatewords:25 }}</p>
+                    <a href="{% url 'website:service_detail' service.id %}" class="btn btn-outline">En savoir plus</a>
+                </div>
+            {% empty %}
+                <div class="no-content">
+                    <div class="no-content-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Aucun service trouvé</h3>
+                    {% if search_query %}
+                        <p>Aucun service ne correspond à votre recherche "{{ search_query }}".</p>
+                        <a href="{% url 'website:services' %}" class="btn btn-primary">Voir tous les services</a>
+                    {% else %}
+                        <p>Aucun service disponible pour le moment.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination si nécessaire -->
+        {% if services.has_other_pages %}
+            <div class="pagination">
+                {% if services.has_previous %}
+                    <a href="?page={{ services.previous_page_number }}" class="btn btn-outline">
+                        <i class="fas fa-chevron-left"></i> Précédent
+                    </a>
+                {% endif %}
+                
+                <span class="pagination-info">
+                    Page {{ services.number }} sur {{ services.paginator.num_pages }}
+                </span>
+                
+                {% if services.has_next %}
+                    <a href="?page={{ services.next_page_number }}" class="btn btn-outline">
+                        Suivant <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Besoin d'un conseil juridique ?</h2>
+            <p>Nos avocats sont à votre disposition pour vous accompagner dans vos démarches juridiques.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'website:contact' %}" class="btn btn-primary">Prendre rendez-vous</a>
+                <a href="{% url 'website:equipe' %}" class="btn btn-secondary">Rencontrer l'équipe</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

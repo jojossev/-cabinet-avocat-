@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Équipe - {{ cabinet_info.nom_cabinet|default:"Cabinet d'Avocat" }}{% endblock %}
+
+{% block content %}
+<!-- Section Équipe -->
+<section class="team-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Notre Équipe</h1>
+            <p>Rencontrez nos avocats expérimentés et passionnés par leur métier</p>
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="search-bar">
+            <form method="get" class="search-form">
+                <div class="search-input-group">
+                    <input type="text" name="search" value="{{ search_query }}" placeholder="Rechercher un avocat..." class="search-input">
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                {% if search_query %}
+                    <a href="{% url 'website:equipe' %}" class="clear-search">Effacer la recherche</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Grille des avocats -->
+        <div class="team-grid">
+            {% for avocat in avocats %}
+                <div class="team-member">
+                    <div class="member-photo">
+                        {% if avocat.photo %}
+                            <img src="{{ avocat.photo.url }}" alt="{{ avocat.nom }}">
+                        {% else %}
+                            <i class="fas fa-user-tie"></i>
+                        {% endif %}
+                    </div>
+                    <h3>{{ avocat.nom }}</h3>
+                    <p class="member-title">{{ avocat.titre }}</p>
+                    <p class="member-specialty">{{ avocat.specialites }}</p>
+                    <div class="member-social">
+                        {% if avocat.linkedin %}
+                            <a href="{{ avocat.linkedin }}" target="_blank" title="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        {% endif %}
+                        <a href="mailto:{{ avocat.email }}" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:{{ avocat.telephone }}" title="Téléphone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                    <a href="{% url 'website:avocat_detail' avocat.id %}" class="btn btn-outline">Voir le profil</a>
+                </div>
+            {% empty %}
+                <div class="no-content">
+                    <div class="no-content-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Aucun avocat trouvé</h3>
+                    {% if search_query %}
+                        <p>Aucun avocat ne correspond à votre recherche "{{ search_query }}".</p>
+                        <a href="{% url 'website:equipe' %}" class="btn btn-primary">Voir toute l'équipe</a>
+                    {% else %}
+                        <p>Aucun avocat disponible pour le moment.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination si nécessaire -->
+        {% if avocats.has_other_pages %}
+            <div class="pagination">
+                {% if avocats.has_previous %}
+                    <a href="?page={{ avocats.previous_page_number }}" class="btn btn-outline">
+                        <i class="fas fa-chevron-left"></i> Précédent
+                    </a>
+                {% endif %}
+                
+                <span class="pagination-info">
+                    Page {{ avocats.number }} sur {{ avocats.paginator.num_pages }}
+                </span>
+                
+                {% if avocats.has_next %}
+                    <a href="?page={{ avocats.next_page_number }}" class="btn btn-outline">
+                        Suivant <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Rencontrer notre équipe</h2>
+            <p>Nos avocats sont à votre disposition pour vous accompagner dans vos démarches juridiques.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'website:contact' %}" class="btn btn-primary">Prendre rendez-vous</a>
+                <a href="{% url 'website:services' %}" class="btn btn-secondary">Découvrir nos services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
