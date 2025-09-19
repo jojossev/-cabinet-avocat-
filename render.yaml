@@ -3,7 +3,7 @@ services:
     name: cabinet-avocat
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn cabinet_avocat.wsgi
+    startCommand: gunicorn cabinet_avocat.wsgi --settings=cabinet_avocat.settings_render
     envVars:
       - key: DEBUG
         value: False
