@@ -8,7 +8,7 @@ import django
 from django.utils import timezone
 
 # Configuration Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cabinet_avocat.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cabinet_avocat.settings_render')
 django.setup()
 
 from website.models import Service, Avocat, CabinetInfo, Article, Témoignage, FAQ, Newsletter, Statistique

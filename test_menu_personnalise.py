@@ -7,7 +7,7 @@ import sys
 import django
 
 # Configuration Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cabinet_avocat.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cabinet_avocat.settings_render')
 django.setup()
 
 from django.test import Client
