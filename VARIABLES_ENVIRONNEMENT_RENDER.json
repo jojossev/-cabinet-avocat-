@@ -1,0 +1,24 @@
+{
+  "variables": {
+    "DEBUG": "False",
+    "SECRET_KEY": "django-insecure-votre-cle-secrete-longue-et-complexe",
+    "ALLOWED_HOSTS": "cabinet-avocat-9h1y.onrender.com",
+    "DATABASE_URL": "postgresql://cabinet_avocat_db_user:K0rObikDroqb8pvEp6yMcFGrfBrAF8bm@dpg-d36s2sbipnbc738i77ug-a.frankfurt-postgres.render.com/cabinet_avocat_db"
+  },
+  "instructions": {
+    "1": "Aller dans Render → Votre service web → Environment → Environment Variables",
+    "2": "Supprimer toutes les variables existantes",
+    "3": "Ajouter ces 4 variables une par une",
+    "4": "Cliquer sur 'Enregistrez, reconstruisez et déployez'",
+    "5": "Attendre que le déploiement se termine",
+    "6": "Aller dans Shell et exécuter les migrations"
+  },
+  "urls": {
+    "site": "https://cabinet-avocat-9h1y.onrender.com",
+    "admin": "https://cabinet-avocat-9h1y.onrender.com/admin/"
+  },
+  "commandes_shell": [
+    "python manage.py migrate",
+    "python manage.py createsuperuser"
+  ]
+}

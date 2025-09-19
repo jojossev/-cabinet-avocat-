@@ -1,0 +1,27 @@
+# Variables d'environnement pour Render - Cabinet d'Avocat
+# Copiez-collez ces variables dans Render → Environment → Environment Variables
+
+# Configuration Django
+DEBUG=False
+SECRET_KEY=django-insecure-votre-cle-secrete-longue-et-complexe
+ALLOWED_HOSTS=cabinet-avocat-9h1y.onrender.com
+
+# Base de données PostgreSQL
+DATABASE_URL=postgresql://cabinet_avocat_db_user:K0rObikDroqb8pvEp6yMcFGrfBrAF8bm@dpg-d36s2sbipnbc738i77ug-a.frankfurt-postgres.render.com/cabinet_avocat_db
+
+# Instructions d'utilisation :
+# 1. Aller dans Render → Votre service web → Environment → Environment Variables
+# 2. Supprimer toutes les variables existantes
+# 3. Ajouter ces 4 variables une par une :
+#    - Clé: DEBUG, Valeur: False
+#    - Clé: SECRET_KEY, Valeur: django-insecure-votre-cle-secrete-longue-et-complexe
+#    - Clé: ALLOWED_HOSTS, Valeur: cabinet-avocat-9h1y.onrender.com
+#    - Clé: DATABASE_URL, Valeur: postgresql://cabinet_avocat_db_user:K0rObikDroqb8pvEp6yMcFGrfBrAF8bm@dpg-d36s2sbipnbc738i77ug-a.frankfurt-postgres.render.com/cabinet_avocat_db
+# 4. Cliquer sur "Enregistrez, reconstruisez et déployez"
+# 5. Attendre que le déploiement se termine
+# 6. Aller dans Shell et exécuter :
+#    python manage.py migrate
+#    python manage.py createsuperuser
+
+# URL de votre site : https://cabinet-avocat-9h1y.onrender.com
+# URL de l'administration : https://cabinet-avocat-9h1y.onrender.com/admin/

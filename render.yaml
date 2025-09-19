@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: cabinet-avocat
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn cabinet_avocat.wsgi
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        value: django-insecure-votre-cle-secrete-longue-et-complexe
+      - key: ALLOWED_HOSTS
+        value: votre-domaine.onrender.com
+    healthCheckPath: /
+    
+  - type: pserv
+    name: cabinet-avocat-db
+    env: postgresql
+    plan: free
