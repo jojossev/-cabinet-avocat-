@@ -8,9 +8,11 @@ services:
       - key: DEBUG
         value: False
       - key: SECRET_KEY
-        value: django-insecure-votre-cle-secrete-longue-et-complexe
+        value: )p0%y=nsw%bym4d99zuymlj)ashyl2*&v=qn%q(q4g*89q+o-l
       - key: ALLOWED_HOSTS
-        value: votre-domaine.onrender.com
+        value: cabinet-avocat-9h1y.onrender.com
+      - key: DATABASE_URL
+        value: postgresql://cabinet_avocat_db_user:K0rObikDroqb8pvEp6yMcFGrfBrAF8bm@dpg-d36s2sbipnbc738i77ug-a.frankfurt-postgres.render.com/cabinet_avocat_db
     healthCheckPath: /
     
   - type: pserv

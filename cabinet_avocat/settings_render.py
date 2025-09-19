@@ -1,5 +1,6 @@
 """
 Configuration pour Render - Cabinet d'Avocat
+Version: 1.1 - Configuration optimisée pour Render
 """
 
 import os

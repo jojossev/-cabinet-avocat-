@@ -1,7 +1,7 @@
 {
   "variables": {
     "DEBUG": "False",
-    "SECRET_KEY": "django-insecure-votre-cle-secrete-longue-et-complexe",
+    "SECRET_KEY": ")p0%y=nsw%bym4d99zuymlj)ashyl2*&v=qn%q(q4g*89q+o-l",
     "ALLOWED_HOSTS": "cabinet-avocat-9h1y.onrender.com",
     "DATABASE_URL": "postgresql://cabinet_avocat_db_user:K0rObikDroqb8pvEp6yMcFGrfBrAF8bm@dpg-d36s2sbipnbc738i77ug-a.frankfurt-postgres.render.com/cabinet_avocat_db"
   },
