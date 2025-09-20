@@ -67,7 +67,7 @@ def contact(request):
                 request, 
                 'Votre message a été envoyé avec succès ! Nous vous contacterons bientôt.'
             )
-            return redirect('contact')
+            return redirect('website:contact')
     else:
         form = ContactForm()
     
